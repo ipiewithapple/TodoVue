@@ -9,7 +9,7 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
   <link rel="stylesheet" href="style.css">
-  <title>TodoVue</title>
+  <title>TodoVueApp</title>
 </head>
 
 <body class="bg-dark text-light">
@@ -17,13 +17,17 @@
     <div class="container">
       <h1 class="mt-3 mb-3">{{title}}</h1>
       <input type="text" placeholder="Add todo" @keydown.enter="addNewTodo" ref="todoInput">
-      <button class="btn btn-success btn-sm" @click="addNewTodo"><i class="fas fa-plus"></i></button>
+      <div class="btn-group ml-2" role="group" aria-label="Basic example">
+          <button class="btn btn-success" @click="addNewTodo"><i class="fas fa-plus"></i></button>
+          <button type="button" class="btn btn-secondary">All</button>
+          <button type="button" class="btn btn-secondary">Done</button>
+        </div>
       <span class="text-danger d-block" v-if="isEmpty">Please enter todo</span>
       <ul class="mt-3">
-        <li v-for="(todo, index) in todos">
+        <li v-for="(todo, index) in todos" :data-id="index + 1">
           <span class="todo-title mr-2">{{`${index + 1}.`}}</span>
           <p class="todo d-inline">{{todo}}</p>
-          <button class="btn btn-danger float-right">Del</button>
+          <button class="btn btn-danger float-right" @click="delTodo">Delete</button>
           <button class="btn btn-success float-right" @click="checkTodo">Done</button>
           <hr>
         </li>
@@ -48,10 +52,15 @@
             this.todos.push(this.$refs.todoInput.value);
             this.$refs.todoInput.value = '';
             this.isEmpty = false;
+            this.counter++;
           }
         },
-        checkTodo (evt) {
+        checkTodo(evt) {
           evt.target.parentElement.classList.toggle('text-success');
+        },
+        delTodo(evt) {
+          const id = evt.target.parentElement.dataset.id;
+          this.todos.splice(id -1,1);
         }
       }
     })
