@@ -24,7 +24,7 @@
         </div>
       <span class="text-danger d-block" v-if="isEmpty">Please enter todo</span>
       <ul class="mt-3">
-        <li v-for="(todo, index) in todos" :data-id="index + 1">
+        <li ref="todo" v-for="({todo,done}, index) in todos" :data-id="index + 1" :class="{'text-success' : done}">
           <span class="todo-title mr-2">{{`${index + 1}.`}}</span>
           <p class="todo d-inline">{{todo}}</p>
           <button class="btn btn-danger float-right" @click="delTodo">Delete</button>
@@ -41,7 +41,7 @@
       el: "#App",
       data: {
         title: 'TodoVueApp',
-        todos: ['Buy beer'],
+        todos: [],
         isEmpty: false,
       },
       methods: {
@@ -49,14 +49,18 @@
           if (this.$refs.todoInput.value === '') {
             this.isEmpty = true;
           } else {
-            this.todos.push(this.$refs.todoInput.value);
+            const newTodo = {
+              todo: this.$refs.todoInput.value,
+              done: false
+            };
+            this.todos.push(newTodo);
             this.$refs.todoInput.value = '';
             this.isEmpty = false;
-            this.counter++;
           }
         },
         checkTodo(evt) {
-          evt.target.parentElement.classList.toggle('text-success');
+          const id = evt.target.parentElement.dataset.id -1;
+          this.todos[id].done ? this.todos[id].done = false : this.todos[id].done = true;
         },
         delTodo(evt) {
           const id = evt.target.parentElement.dataset.id;
