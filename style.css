@@ -1,0 +1,13 @@
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.todo-title {
+  font-weight: bold;
+}
+
+.btn {
+  margin: 0 5px;
+}
+
