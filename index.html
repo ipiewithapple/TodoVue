@@ -18,19 +18,32 @@
       <h1 class="mt-3 mb-3">{{title}}</h1>
       <input type="text" placeholder="Add todo" @keydown.enter="addNewTodo" ref="todoInput">
       <div class="btn-group ml-2" role="group" aria-label="Basic example">
-          <button class="btn btn-success" @click="addNewTodo"><i class="fas fa-plus"></i></button>
-          <button type="button" class="btn btn-secondary">All</button>
-          <button type="button" class="btn btn-secondary">Done</button>
-        </div>
+        <button class="btn btn-success" @click="addNewTodo"><i class="fas fa-plus"></i></button>
+        <button type="button" class="btn btn-secondary" @click="isDone = false"
+          :class="{'active' : !isDone}">All</button>
+        <button type="button" class="btn btn-secondary" @click="isDone = true"
+          :class="{'active' : isDone}">Done</button>
+      </div>
       <span class="text-danger d-block" v-if="isEmpty">Please enter todo</span>
       <ul class="mt-3">
-        <li ref="todo" v-for="({todo,done}, index) in todos" :data-id="index + 1" :class="{'text-success' : done}">
-          <span class="todo-title mr-2">{{`${index + 1}.`}}</span>
-          <p class="todo d-inline">{{todo}}</p>
-          <button class="btn btn-danger float-right" @click="delTodo">Delete</button>
-          <button class="btn btn-success float-right" @click="checkTodo">Done</button>
-          <hr>
-        </li>
+        <template v-if="!isDone">
+          <li ref="todo" v-for="({todo,done}, index) in todos" :data-id="index + 1" :class="{'text-success' : done}">
+            <span class="todo-title mr-2">{{`${index + 1}.`}}</span>
+            <p class="todo d-inline">{{todo}}</p>
+            <button class="btn btn-danger float-right" @click="delTodo">Delete</button>
+            <button class="btn btn-success float-right" @click="checkTodo">Done</button>
+            <hr>
+          </li>
+        </template>
+        <template v-else>
+          <li ref="todo" v-for="({todo,done}, index) in todos" :data-id="index + 1" :class="{'text-success' : done}" v-if="done">
+            <span class="todo-title mr-2">{{`${index + 1}.`}}</span>
+            <p class="todo d-inline">{{todo}}</p>
+            <button class="btn btn-danger float-right" @click="delTodo">Delete</button>
+            <button class="btn btn-success float-right" @click="checkTodo">Done</button>
+            <hr>
+          </li>
+        </template>
       </ul>
     </div>
   </div>
@@ -42,7 +55,9 @@
       data: {
         title: 'TodoVueApp',
         todos: [],
+        doneTodos: [],
         isEmpty: false,
+        isDone: false
       },
       methods: {
         addNewTodo(evt) {
@@ -59,13 +74,14 @@
           }
         },
         checkTodo(evt) {
-          const id = evt.target.parentElement.dataset.id -1;
+          const id = evt.target.parentElement.dataset.id - 1;
           this.todos[id].done ? this.todos[id].done = false : this.todos[id].done = true;
+
         },
         delTodo(evt) {
           const id = evt.target.parentElement.dataset.id;
-          this.todos.splice(id -1,1);
-        }
+          this.todos.splice(id - 1, 1);
+        },
       }
     })
   </script>
