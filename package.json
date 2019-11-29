@@ -1,0 +1,27 @@
+{
+  "name": "todovue",
+  "version": "1.0.0",
+  "description": "Simple todo app on Vue",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ipiewithapple/TodoVue.git"
+  },
+  "keywords": [
+    "Todo",
+    "Vue"
+  ],
+  "author": "iPie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ipiewithapple/TodoVue/issues"
+  },
+  "homepage": "https://github.com/ipiewithapple/TodoVue#readme",
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2"
+  }
+}
