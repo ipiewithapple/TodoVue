@@ -16,7 +16,8 @@
   <div id="App">
     <div class="container">
       <h1 class="mt-3 mb-3">{{title}}</h1>
-      <input type="text" placeholder="Add todo" @keydown.enter="addNewTodo" ref="todoInput">
+      <input type="text" placeholder="Search">
+      <input type="text" class="mt-2 mb-2" placeholder="Add todo" @keydown.enter="addNewTodo" ref="todoInput">
       <div class="btn-group ml-2" role="group" aria-label="Basic example">
         <button class="btn btn-success" @click="addNewTodo"><i class="fas fa-plus"></i></button>
         <button type="button" class="btn btn-secondary" @click="isDone = false"
