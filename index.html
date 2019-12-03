@@ -16,7 +16,7 @@
   <div id="App">
     <div class="container">
       <h1 class="mt-3 mb-3">{{title}}</h1>
-      <input type="text" placeholder="Search">
+      <input type="text" placeholder="Search" ref="searchField" @input="searchTodo">
       <input type="text" class="mt-2 mb-2" placeholder="Add todo" @keydown.enter="addNewTodo" ref="todoInput">
       <div class="btn-group ml-2" role="group" aria-label="Basic example">
         <button class="btn btn-success" @click="addNewTodo"><i class="fas fa-plus"></i></button>
@@ -58,7 +58,8 @@
         todos: [],
         doneTodos: [],
         isEmpty: false,
-        isDone: false
+        isDone: false,
+        isSearch: false
       },
       methods: {
         addNewTodo(evt) {
@@ -83,6 +84,10 @@
           const id = evt.target.parentElement.dataset.id;
           this.todos.splice(id - 1, 1);
         },
+        searchTodo () {
+          this.$refs.searchField.value === '' ? this.isSearch = false : this.isSearch = true;
+          console.log(this.isSearch); 
+        }
       }
     })
   </script>
