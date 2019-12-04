@@ -27,7 +27,7 @@
       </div>
       <span class="text-danger d-block" v-if="isEmpty">Please enter todo</span>
       <ul class="mt-3">
-        <template v-if="!isDone">
+        <template v-if="!isDone && !isSearch">
           <li ref="todo" v-for="({todo,done}, index) in todos" :data-id="index + 1" :class="{'text-success' : done}">
             <span class="todo-title mr-2">{{`${index + 1}.`}}</span>
             <p class="todo d-inline">{{todo}}</p>
@@ -36,8 +36,17 @@
             <hr>
           </li>
         </template>
-        <template v-else>
+        <template v-else-if="!isSearch">
           <li ref="todo" v-for="({todo,done}, index) in todos" :data-id="index + 1" :class="{'text-success' : done}" v-if="done">
+            <span class="todo-title mr-2">{{`${index + 1}.`}}</span>
+            <p class="todo d-inline">{{todo}}</p>
+            <button class="btn btn-danger float-right" @click="delTodo">Delete</button>
+            <button class="btn btn-success float-right" @click="checkTodo">Done</button>
+            <hr>
+          </li>
+        </template>
+        <template v-else>
+          <li ref="todo" v-for="({todo,done}, index) in todos" :data-id="index + 1" :class="{'text-success' : done}" v-if="todo.includes(searchResult)">
             <span class="todo-title mr-2">{{`${index + 1}.`}}</span>
             <p class="todo d-inline">{{todo}}</p>
             <button class="btn btn-danger float-right" @click="delTodo">Delete</button>
@@ -56,7 +65,7 @@
       data: {
         title: 'TodoVueApp',
         todos: [],
-        doneTodos: [],
+        searchResult: '',
         isEmpty: false,
         isDone: false,
         isSearch: false
@@ -86,7 +95,7 @@
         },
         searchTodo () {
           this.$refs.searchField.value === '' ? this.isSearch = false : this.isSearch = true;
-          console.log(this.isSearch); 
+          this.searchResult = this.$refs.searchField.value;
         }
       }
     })
