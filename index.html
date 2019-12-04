@@ -46,7 +46,7 @@
           </li>
         </template>
         <template v-else>
-          <li ref="todo" v-for="({todo,done}, index) in todos" :data-id="index + 1" :class="{'text-success' : done}" v-if="todo.includes(searchResult)">
+          <li ref="todo" v-for="({todo,done}, index) in todos" :data-id="index + 1" :class="{'text-success' : done}" v-if="isDone ? todo.includes(searchResult) && done : todo.includes(searchResult)">
             <span class="todo-title mr-2">{{`${index + 1}.`}}</span>
             <p class="todo d-inline">{{todo}}</p>
             <button class="btn btn-danger float-right" @click="delTodo">Delete</button>
